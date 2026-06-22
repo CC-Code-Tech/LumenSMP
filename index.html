@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LumenSMP - Официальный сайт</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --card-bg: rgba(30, 41, 59, 0.8);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Main Layout */
+        .main-layout {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 280px 1fr 300px;
+            gap: 2rem;
+        }
+
+        /* Sidebar Menu */
+        .sidebar-menu {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .menu-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.8rem;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .menu-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+
+        .menu-btn:hover::before {
+            transform: scaleY(1);
+        }
+
+        .menu-btn.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .menu-btn.active::before {
+            transform: scaleY(1);
+        }
+
+        .menu-btn-icon {
+            margin-right: 0.5rem;
+        }
+
+        /* Content Area */
+        .content-area {
+            min-height: 600px;
+        }
+
+        .section {
+            display: none;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section h2::before {
+            content: '';
+            width: 5px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .welcome-section h2 {
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .welcome-section h2::before {
+            display: none;
+        }
+
+        .welcome-section p {
+            font-size: 1.3rem;
+            color: rgba(241, 245, 249, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .welcome-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .feature-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        /* Rules */
+        .rule-category {
+            margin-bottom: 2rem;
+        }
+
+        .rule-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .rule-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+            border-left: 3px solid var(--secondary);
+            transition: all 0.3s;
+        }
+
+        .rule-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(10px);
+            border-left-color: var(--accent);
+        }
+
+        .rule-item strong {
+            color: var(--accent);
+        }
+
+        .ban-duration {
+            display: inline-block;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        /* Application Info */
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .role-card {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .role-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .role-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .role-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .role-card li:last-child {
+            border-bottom: none;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Server Info */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-card {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        .info-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Donate Section */
+        .donate-coming-soon {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 15px;
+            border: 2px dashed var(--primary);
+        }
+
+        .donate-coming-soon h3 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .donate-coming-soon p {
+            font-size: 1.2rem;
+            color: rgba(241, 245, 249, 0.7);
+        }
+
+        /* Right Sidebar */
+        .sidebar-right {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .telegram-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .telegram-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .telegram-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .telegram-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #0088cc, #00a0dc);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+        }
+
+        .telegram-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(0, 136, 204, 0.6);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        footer p {
+            color: rgba(241, 245, 249, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 250px 1fr;
+            }
+
+            .sidebar-right {
+                grid-column: 1 / -1;
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .sidebar-menu {
+                position: static;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .welcome-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">✨ LumenSMP</div>
+        </nav>
+    </header>
+
+    <div class="main-layout">
+        <!-- Left Sidebar Menu -->
+        <aside class="sidebar-menu">
+            <div class="menu-card">
+                <h3>📋 Меню</h3>
+                <button class="menu-btn active" data-section="welcome">
+                    <span class="menu-btn-icon">🏠</span>Главная
+                </button>
+                <button class="menu-btn" data-section="rules">
+                    <span class="menu-btn-icon">📜</span>Правила
+                </button>
+                <button class="menu-btn" data-section="applications">
+                    <span class="menu-btn-icon">📝</span>Заявки
+                </button>
+                <button class="menu-btn" data-section="info">
+                    <span class="menu-btn-icon">ℹ️</span>Информация
+                </button>
+                <button class="menu-btn" data-section="donate">
+                    <span class="menu-btn-icon">💎</span>Донат
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <!-- Welcome Section -->
+            <section id="welcome" class="section active welcome-section">
+                <h2>Добро пожаловать на LumenSMP!</h2>
+                <p>Уникальный Minecraft сервер с дружелюбным сообществом</p>
+                
+                <div class="welcome-features">
+                    <div class="feature-card">
+                        <h4>🎮 Играй</h4>
+                        <p>Присоединяйся к нашему серверу и начни играть прямо сейчас</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>👥 Общайся</h4>
+                        <p>Найди друзей и стань частью нашего дружного сообщества</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🏆 Развивайся</h4>
+                        <p>Строй, исследуй и достигай новых высот вместе с нами</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rules Section -->
+            <section id="rules" class="section">
+                <h2>Правила сервера</h2>
+                
+                <div class="rule-category">
+                    <h3>Пункт 1: Постороннее ПО</h3>
+                    <div class="rule-item">
+                        <strong>1.1</strong> Игра с читами (если спалил античит 15 дней) <span class="ban-duration">Бан 30 дней</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>1.2</strong> Ресурс пак или мод x-ray <span class="ban-duration">Бан 7 дней</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>1.3</strong> Killaura, trigger bot или все что есть в читах (визуальные функции и автосвап не считается) <span class="ban-duration">Бан 30 дней</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>1.4</strong> Моды по типу freeCam или replay mod из-за позволения видеть то, что не должны видеть игроки <span class="ban-duration">Бан 1 день</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>1.5</strong> Использование Rival visuals, Luminar visuals из-за присутствия freecam и других запрещённых функций <span class="ban-duration">Бан 7 дней</span>
+                    </div>
+                </div>
+
+                <div class="rule-category">
+                    <h3>Пункт 2: Муты</h3>
+                    <div class="rule-item">
+                        <strong>2.1</strong> Оскорбление игроков <span class="ban-duration">Мут 15 мин</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>2.2</strong> Оскорбление родственников игрока <span class="ban-duration">Мут 1 день</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>2.3</strong> Оскорбление администрации (от Modera до Ownera) <span class="ban-duration">Мут</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>2.4</strong> Оскорбление родственников администрации <span class="ban-duration">Мут 30 дней</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>2.5</strong> Предложение построения лаг машин <span class="ban-duration">Бан 1 день</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>2.6</strong> Палить пароль игрока, который вам доверил свой пароль аккаунта <span class="ban-duration">Мут навсегда</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>2.7</strong> Разговоры о сексуальных действиях <span class="ban-duration">Мут 10 мин</span>
+                    </div>
+                </div>
+
+                <div class="rule-category">
+                    <h3>Пункт 3: Лаг машины и тому подобное</h3>
+                    <div class="rule-item">
+                        <strong>3.1</strong> Постройка лаг машины (если не успел запустить) <span class="ban-duration">Бан 15 дней</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>3.2</strong> Постройка лаг машины (если запустил её) <span class="ban-duration">Бан 20 дней</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>3.3</strong> Если построил, запустил и она крашнула сервер до отката <span class="ban-duration">Бан навсегда</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>3.4</strong> Если что-то построил такое по случайности и оно крашнуло сервер <span class="ban-duration">Бан 7 дней</span>
+                    </div>
+                </div>
+
+                <div class="rule-category">
+                    <h3>Пункт 4: Для администрации</h3>
+                    <div class="rule-item">
+                        <strong>4.1</strong> Оскорбление игрока <span class="ban-duration">Снятие 1 час</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>4.2</strong> Подкуп от игрока и бан в пвп режиме <span class="ban-duration">Снятие 3 недели</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>4.3</strong> Оскорбление администратора выше по званию <span class="ban-duration">Снятие 1 час</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>4.4</strong> Не забанить игрока за читы или другое нарушение <span class="ban-duration">Снятие 5 дней</span>
+                    </div>
+                    <div class="rule-item">
+                        <strong>4.5</strong> Бан за просто так: если бан на 1 день - 7 дней <span class="ban-duration">Снятие 10 дней</span>, 7-20 <span class="ban-duration">Снятие 30 дней</span>, 20-любое число <span class="ban-duration">Снятие навсегда</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Applications Section -->
+            <section id="applications" class="section">
+                <h2>Информация для заявок</h2>
+                
+                <div class="role-grid">
+                    <div class="role-card">
+                        <h4>🛡️ Модератор</h4>
+                        <ul>
+                            <li>✓ Опыт</li>
+                            <li>✓ Имя</li>
+                        </ul>
+                    </div>
+                    <div class="role-card">
+                        <h4>📹 Медиа</h4>
+                        <ul>
+                            <li>✓ Имя</li>
+                            <li>✓ Аккаунт куда будешь выкладывать</li>
+                        </ul>
+                    </div>
+                    <div class="role-card">
+                        <h4>❓ Хелпер</h4>
+                        <ul>
+                            <li>✓ Опыт</li>
+                            <li>✓ Имя</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <p><strong>⚠️ Важно:</strong> Все что выше модера не рассматриваем</p>
+                    <p><strong>📱 Контакты:</strong> Модер, Хелпер и Медиа - Telegram <a href="https://t.me/mrtip52" target="_blank" style="color: var(--accent);">@mrtip52</a></p>
+                </div>
+            </section>
+
+            <!-- Server Info Section -->
+            <section id="info" class="section">
+                <h2>Информация о сервере</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>📅 Дата создания</h4>
+                        <p>20.06.26</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>🖥️ Хостинг</h4>
+                        <p>3 картошки</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Donate Section -->
+            <section id="donate" class="section">
+                <h2>Донаты</h2>
+                
+                <div class="donate-coming-soon">
+                    <h3>🚀 Скоро</h3>
+                    <p>Система донатов находится в разработке</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar-right">
+            <div class="telegram-card">
+                <h3>📢 Наш Telegram</h3>
+                <p style="margin-bottom: 1.5rem;">Присоединяйся к нашему сообществу!</p>
+                <a href="https://t.me/LumenSMP" target="_blank" class="telegram-btn">
+                    @LumenSMP
+                </a>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 LumenSMP. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Section switching
+        const menuButtons = document.querySelectorAll('.menu-btn');
+        const sections = document.querySelectorAll('.section');
+
+        menuButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetSection = button.getAttribute('data-section');
+                
+                // Remove active class from all buttons and sections
+                menuButtons.forEach(btn => btn.classList.remove('active'));
+                sections.forEach(section => section.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding section
+                button.classList.add('active');
+                document.getElementById(targetSection).classList.add('active');
+                
+                // Scroll to top of content area
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
